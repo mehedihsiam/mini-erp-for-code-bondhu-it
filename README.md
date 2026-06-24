@@ -38,7 +38,12 @@ The **Mini ERP** serves as a centralized hub to monitor business health. It trac
   - Dynamic forms that handle multiple items per transaction.
   - Generates automated printable PDF invoices for Sales.
   - Automatically calculates real-time total amounts using strict caching protocols.
-- **Reporting & Data Export**: Aggregated data grids displaying real-time stock limits, purchase histories, and sales logs, featuring one-click **CSV Exports**.
+- **Reporting & Data Export**:
+  - Five dedicated analytics tabs: **Products, Customers, Suppliers, Purchases, Sales**.
+  - Integrated **Recharts** rendering dynamic Bar, Line, and Area charts for visual data summarization.
+  - Context-aware one-click **CSV Exports** seamlessly tied to the active report tab.
+- **Strict Code Quality & CI/CD**:
+  - Configured **Husky Pre-commit Hooks** to strictly enforce 100% TypeScript type safety and successful Vite builds before allowing any git commits.
 
 ---
 
