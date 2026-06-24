@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { purchaseSchema, type PurchaseFormValues } from "./schemas";
@@ -15,6 +15,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { SupplierForm } from "../suppliers/SupplierForm";
 
 interface PurchaseFormProps {
   onSubmit: (data: PurchaseFormValues) => Promise<void>;
@@ -23,7 +30,8 @@ interface PurchaseFormProps {
 
 export function PurchaseForm({ onSubmit, isSubmitting }: PurchaseFormProps) {
   const { products } = useProducts();
-  const { suppliers } = useSuppliers();
+  const { suppliers, createSupplier } = useSuppliers();
+  const [isSupplierDialogOpen, setIsSupplierDialogOpen] = useState(false);
 
   const {
     register,
@@ -61,9 +69,20 @@ export function PurchaseForm({ onSubmit, isSubmitting }: PurchaseFormProps) {
   }, [append]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="space-y-2">
-        <Label>Supplier</Label>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label>Supplier</Label>
+            <Button
+              type="button"
+              variant="link"
+              className="h-auto p-0 text-primary"
+              onClick={() => setIsSupplierDialogOpen(true)}
+            >
+              + Add new supplier
+            </Button>
+          </div>
         <Controller
           name="supplier_id"
           control={control}
@@ -189,15 +208,38 @@ export function PurchaseForm({ onSubmit, isSubmitting }: PurchaseFormProps) {
         ))}
       </div>
 
-      <div className="flex items-center justify-between border-t pt-4">
-        <div className="text-lg font-bold">
-          Total: ${totalAmount.toFixed(2)}
+        <div className="flex items-center justify-between border-t pt-4">
+          <div className="text-lg font-bold">
+            Total: ${totalAmount.toFixed(2)}
+          </div>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Complete Purchase
+          </Button>
         </div>
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Complete Purchase
-        </Button>
-      </div>
-    </form>
+      </form>
+
+      <Dialog
+        open={isSupplierDialogOpen}
+        onOpenChange={setIsSupplierDialogOpen}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Supplier</DialogTitle>
+          </DialogHeader>
+          <SupplierForm
+            onSubmit={async (data) => {
+              const newSupplier = await createSupplier.mutateAsync(data);
+              setIsSupplierDialogOpen(false);
+              // Auto select the new supplier
+              if (newSupplier && newSupplier.id) {
+                setValue("supplier_id", newSupplier.id);
+              }
+            }}
+            isSubmitting={createSupplier.isPending}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
