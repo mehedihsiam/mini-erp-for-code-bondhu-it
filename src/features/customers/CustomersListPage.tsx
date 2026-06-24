@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useCustomers } from "@/hooks/useCustomers";
 import { DataTable, type ColumnDef } from "@/components/shared/DataTable";
 import { CustomerForm } from "./CustomerForm";
@@ -17,6 +18,7 @@ import { Plus, Edit, Trash } from "lucide-react";
 type Customer = Database["public"]["Tables"]["customers"]["Row"];
 
 export function CustomersListPage() {
+  useDocumentTitle("Customers");
   const { customers, isLoading, createCustomer, updateCustomer, deleteCustomer } = useCustomers();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | undefined>();

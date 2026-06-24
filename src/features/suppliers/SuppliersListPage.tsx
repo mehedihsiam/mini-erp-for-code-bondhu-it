@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useSuppliers } from "@/hooks/useSuppliers";
 import { DataTable, type ColumnDef } from "@/components/shared/DataTable";
 import { SupplierForm } from "./SupplierForm";
@@ -17,6 +18,7 @@ import { Plus, Edit, Trash } from "lucide-react";
 type Supplier = Database["public"]["Tables"]["suppliers"]["Row"];
 
 export function SuppliersListPage() {
+  useDocumentTitle("Suppliers");
   const { suppliers, isLoading, createSupplier, updateSupplier, deleteSupplier } = useSuppliers();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | undefined>();

@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { DataTable, type ColumnDef } from "@/components/shared/DataTable";
@@ -24,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
 export function ReportsOverviewPage() {
+  useDocumentTitle("Reports");
   const [activeTab, setActiveTab] = useState("sales");
 
   // Fetch Sales

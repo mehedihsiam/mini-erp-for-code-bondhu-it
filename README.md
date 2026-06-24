@@ -15,9 +15,10 @@ Built with modern web technologies, this project enforces strict architectural p
 3. [Technology Stack](#technology-stack)
 4. [Project Architecture & Structure](#project-architecture--structure)
 5. [Architectural Decisions & Reasoning](#architectural-decisions--reasoning)
-6. [Setup & Installation Instructions](#setup--installation-instructions)
-7. [Environment Variables](#environment-variables)
-8. [Available Scripts](#available-scripts)
+6. [Custom Hooks & Their Functionalities](#custom-hooks--their-functionalities)
+7. [Setup & Installation Instructions](#setup--installation-instructions)
+8. [Environment Variables](#environment-variables)
+9. [Available Scripts](#available-scripts)
 
 ---
 
@@ -102,6 +103,18 @@ For the human reviewer, here is an explanation of *why* the codebase is structur
 **Reasoning**: Instead of relying on raw `useEffect` fetches, React Query handles caching, background refetching, and cache invalidation natively. When a "Purchase" or "Sale" is created, we immediately call `queryClient.invalidateQueries(["products"])`, triggering an instant, background UI refresh of stock quantities across the entire app without full page reloads.
 
 ---
+
+## Custom Hooks & Their Functionalities
+
+To promote reusability and clean architecture, complex logic and API interactions are abstracted into custom hooks. Here are all the hooks powering the application:
+
+- **`useDocumentTitle`**: Dynamically updates the browser tab's `document.title` to reflect the current active page (e.g., `"Sales | Code Bondhu IT"`).
+- **`useAuth`**: Manages user session state, sign-up, login, and logout functionalities tightly integrated with Supabase Auth.
+- **`useProducts`**: Wraps TanStack React Query to handle CRUD (Create, Read, Update, Delete) operations for the inventory. It automatically invalidates the `["products"]` cache upon mutations to refresh tables instantly.
+- **`useCustomers`**: Fetches and mutates the Customer entity CRM table, providing highly optimized handlers for table rendering.
+- **`useSuppliers`**: Manages the Supplier entity CRM table, ensuring immediate synchronization with the database.
+- **`usePurchases`**: Handles incoming inventory via Purchases. When a purchase is successfully created, this hook ensures product stock numbers are accurately reflected across the app.
+- **`useSales`**: Manages outbound inventory via Sales. Decrements product stock quantities accordingly, handles complex multi-item transaction logic, and aggregates financial data.
 
 ## Setup & Installation Instructions
 

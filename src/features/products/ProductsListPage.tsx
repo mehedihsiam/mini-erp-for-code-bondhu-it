@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useProducts } from "@/hooks/useProducts";
 import { DataTable, type ColumnDef } from "@/components/shared/DataTable";
 import { ProductForm } from "./ProductForm";
@@ -17,6 +18,7 @@ import { Plus, Edit, Trash } from "lucide-react";
 type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export function ProductsListPage() {
+  useDocumentTitle("Products");
   const { products, isLoading, createProduct, updateProduct, deleteProduct } =
     useProducts();
   const [isDialogOpen, setIsDialogOpen] = useState(false);

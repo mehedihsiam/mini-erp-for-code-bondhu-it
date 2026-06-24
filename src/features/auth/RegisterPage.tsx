@@ -17,8 +17,10 @@ import {
 } from "@/components/ui/card";
 import { InputField } from "@/components/shared/InputField";
 import { Loader2 } from "lucide-react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export function RegisterPage() {
+  useDocumentTitle("Register");
   const navigate = useNavigate();
 
   const {

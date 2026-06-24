@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useSales } from "@/hooks/useSales";
 import { DataTable, type ColumnDef } from "@/components/shared/DataTable";
 import { SaleForm } from "./SaleForm";
@@ -16,6 +17,7 @@ import {
 import { Plus } from "lucide-react";
 
 export function SalesListPage() {
+  useDocumentTitle("Sales");
   const { sales, isLoading, createSale } = useSales();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 

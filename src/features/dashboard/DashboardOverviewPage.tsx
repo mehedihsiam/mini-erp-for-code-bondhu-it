@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { supabase } from "@/lib/supabase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, Package, ShoppingCart, Users } from "lucide-react";
@@ -21,6 +22,7 @@ interface ChartData {
 }
 
 export function DashboardOverviewPage() {
+  useDocumentTitle("Dashboard");
   const { theme } = useTheme();
 
   const { data: stats } = useQuery({

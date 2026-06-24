@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { usePurchases } from "@/hooks/usePurchases";
 import { DataTable, type ColumnDef } from "@/components/shared/DataTable";
 import { PurchaseForm } from "./PurchaseForm";
@@ -20,6 +21,7 @@ import {
 import { Plus } from "lucide-react";
 
 export function PurchasesListPage() {
+  useDocumentTitle("Purchases");
   const { purchases, isLoading, createPurchase } = usePurchases();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
